@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>מרוץ קליקים</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            direction: rtl;
+            background-color: #F3D548;
+        }
+        #game, #results {
+            display: none;
+        }
+        #button {
+            font-size: 20px;
+            padding: 10px;
+        }
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        #timer {
+            font-size: 24px;
+            margin-top: 10px;
+            color: red;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: right;
+        }
+        #logo {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        #callToAction {
+            margin-top: 30px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        #callToAction a {
+            color: blue;
+            text-decoration: underline;
+        }
+        #actionImage {
+            width: 300px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        p, h1, h2 {
+            direction: rtl;
+            unicode-bidi: embed;
+        }
+    </style>
+</head>
+<body>
+    <!-- לוגו -->
+    <img id="logo" src="logo.png" alt="מסלול משותף">
+
+    <!-- מסך פתיחה -->
+    <div id="start">
+        <h1>משחק מרוץ קליקים🏃🏾‍♂️</h1>
+        <p>הקלידו את שמכם והתחילו את המשחק!</p>
+        <input type="text" id="playerName" placeholder="הקלידו שם">
+        <button onclick="startGame()">התחל</button>
+    </div>
+
+    <!-- מסך המשחק -->
+    <div id="game">
+        <h1>משחק מרוץ קליקים🏃🏾‍♂️</h1>
+        <p>לחצו על הכפתור כמה שיותר פעמים תוך 10 שניות!</p>
+        <div id="timer">00:10</div>
+        <button id="button" onclick="clickButton()">לחצו כאן!</button>
+        <p id="result">לחיצות: 0</p>
+    </div>
+
+    <!-- מסך תוצאות -->
+    <div id="results">
+        <h1>תוצאות המשחק</h1>
+        <p id="finalResult"></p>
+        <h2>טבלת שיאים</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>מיקום</th>
+                    <th>שם</th>
+                    <th>תוצאה</th>
+                </tr>
+            </thead>
+            <tbody id="highScores"></tbody>
+        </table>
+        <!-- תמונה והנעה לפעולה -->
+        <img id="actionImage" src="BikeWsheep.JPG" alt="רוכבת אופניים עם כבשים">
+        <div id="callToAction">
+            <p>נתת פה מלא קליקים – כל הכבוד 💪🏾</p>
+            <p>עכשיו אני מזמינה אותך לקליק אחד אחרון, קטן אבל משמעותי בשבילי</p>
+            <p>כנס/י לעמוד הפייסבוק שלי ותן/י עוד קליק ללייק</p>
+            <p>זה אולי קליק קטן בשבילך, אבל עבורי זה פרגון ענק ❤️</p>
+            <p>תודה ענקית על התמיכה 😊</p>
+            <a href="https://www.facebook.com/profile.php?id=61571526035851" target="_blank">לחץ כאן לעמוד הפייסבוק שלי</a>
+        </div>
+        <button onclick="restartGame()">שחק שוב</button>
+    </div>
+
+    <script>
+        let clicks = 0;
+        let timerStarted = false;
+        let playerName = "";
+        let highScores = [];
+        let countdown;
+
+        function startGame() {
+            playerName = document.getElementById("playerName").value.trim();
+            if (!playerName) {
+                alert("אנא הזינו שם כדי להתחיל את המשחק.");
+                return;
+            }
+            document.getElementById("start").style.display = "none";
+            document.getElementById("game").style.display = "block";
+            startTimer();
+        }
+
+        function startTimer() {
+            let timeLeft = 10;
+            updateTimerDisplay(timeLeft);
+            countdown = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay(timeLeft) {
+            const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const seconds = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById("timer").innerText = `${minutes}:${seconds}`;
+        }
+
+        function clickButton() {
+            if (!timerStarted) {
+                timerStarted = true;
+            }
+            clicks++;
+            document.getElementById("result").innerHTML = `לחיצות: ${clicks}`;
+        }
+
+        function endGame() {
+            document.getElementById("game").style.display = "none";
+            document.getElementById("results").style.display = "block";
+
+            // הוספת התוצאה לטבלת השיאים
+            highScores.push({ name: playerName, score: clicks });
+            highScores.sort((a, b) => b.score - a.score);
+
+            // עדכון טבלת השיאים
+            const highScoresTable = document.getElementById("highScores");
+            highScoresTable.innerHTML = "";
+            highScores.forEach((entry, index) => {
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td>${entry.name}</td>
+                                <td>${entry.score}</td>
+                            </tr>`;
+                highScoresTable.innerHTML += row;
+            });
+
+            // הצגת תוצאה סופית
+            document.getElementById("finalResult").innerHTML = `כל הכבוד, ${playerName}! סיימת עם ${clicks} לחיצות.`;
+        }
+
+        function restartGame() {
+            clicks = 0;
+            timerStarted = false;
+            playerName = "";
+            document.getElementById("playerName").value = "";
+            document.getElementById("result").innerHTML = "לחיצות: 0";
+            document.getElementById("timer").innerHTML = "00:10";
+            document.getElementById("results").style.display = "none";
+            document.getElementById("start").style.display = "block";
+            clearInterval(countdown);
+        }
+    </script>
+</body>
+</html>
