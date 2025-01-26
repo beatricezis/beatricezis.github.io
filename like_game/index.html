@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>מרוץ קליקים</title>
     <style>
         body {
@@ -12,7 +12,7 @@
             padding: 20px;
             direction: rtl;
             background-color: #F3D548;
-            overflow-x: hidden; /* מניעת גלילה אופקית */
+            overflow-x: hidden;
         }
         #game, #results {
             display: none;
@@ -60,7 +60,6 @@
             border-radius: 10px;
         }
 
-        /* התאמות למובייל */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -82,7 +81,7 @@
 <body>
     <img id="logo" src="logo.png" alt="מסלול משותף">
     
-    <!-- מסך פתיחה -->
+    <!-- Opening View -->
     <div id="start">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>הקלידו את שמכם והתחילו את המשחק!</p>
@@ -90,7 +89,7 @@
         <button onclick="startGame()">התחל</button>
     </div>
 
-    <!-- מסך המשחק -->
+    <!-- Game view -->
     <div id="game">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>לחצו על הכפתור כמה שיותר פעמים תוך 10 שניות!</p>
@@ -99,7 +98,7 @@
         <p id="result">לחיצות: 0</p>
     </div>
 
-    <!-- מסך תוצאות -->
+    <!-- Results view -->
     <div id="results">
         <h1>תוצאות המשחק</h1>
         <p id="finalResult"></p>
@@ -114,7 +113,7 @@
             </thead>
             <tbody id="highScores"></tbody>
         </table>
-        <!-- תמונה והנעה לפעולה -->
+        <!-- Pic and story -->
         <img id="actionImage" src="BikeWsheep.JPG" alt="רוכבת אופניים עם כבשים">
         <div id="callToAction">
             <p>נתת פה מלא קליקים – כל הכבוד 💪🏾</p>
@@ -192,7 +191,7 @@
                 highScoresTable.innerHTML += row;
             });
 
-            // הצגת תוצאה סופית
+            // Result
             document.getElementById("finalResult").innerHTML = `כל הכבוד, ${playerName}! סיימת עם ${clicks} לחיצות.`;
         }
 
