@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>מרוץ קליקים</title>
     <style>
         body {
@@ -81,7 +81,7 @@
 <body>
     <img id="logo" src="logo.png" alt="מסלול משותף">
     
-    <!-- Opening View -->
+    <!-- Opening view -->
     <div id="start">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>הקלידו את שמכם והתחילו את המשחק!</p>
@@ -113,7 +113,7 @@
             </thead>
             <tbody id="highScores"></tbody>
         </table>
-        <!-- Pic and story -->
+        <!-- Pic + story -->
         <img id="actionImage" src="BikeWsheep.JPG" alt="רוכבת אופניים עם כבשים">
         <div id="callToAction">
             <p>נתת פה מלא קליקים – כל הכבוד 💪🏾</p>
@@ -175,11 +175,11 @@
             document.getElementById("game").style.display = "none";
             document.getElementById("results").style.display = "block";
 
-            // הוספת התוצאה לטבלת השיאים
+            // Updating leader board
             highScores.push({ name: playerName, score: clicks });
             highScores.sort((a, b) => b.score - a.score);
 
-            // עדכון טבלת השיאים
+            // Showing leader board
             const highScoresTable = document.getElementById("highScores");
             highScoresTable.innerHTML = "";
             highScores.forEach((entry, index) => {
