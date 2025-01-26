@@ -13,6 +13,7 @@
             direction: rtl;
             background-color: #F3D548;
             overflow-x: hidden; /* מניעת גלילה אופקית */
+            touch-action: manipulation; /* מניעת מחוות זום */
         }
         #game, #results {
             display: none;
@@ -32,6 +33,7 @@
             margin: 20px auto;
             border-collapse: collapse;
             max-width: 100%;
+            touch-action: manipulation; /* מניעת מחוות זום */
         }
         th, td {
             border: 1px solid black;
@@ -39,7 +41,7 @@
             text-align: right;
         }
         #logo {
-            width: 400px; /* גודל קבוע פי שניים */
+            width: 300px; /* גודל לוגו פי 1.5 */
             height: auto;
             margin-bottom: 20px;
         }
@@ -58,6 +60,7 @@
             margin-top: 30px;
             margin-bottom: 20px;
             border-radius: 10px;
+            touch-action: manipulation; /* מניעת מחוות זום */
         }
 
         /* התאמות למובייל */
@@ -215,6 +218,17 @@
         // מניעת זום כפול על ידי לחיצה כפולה
         document.addEventListener('dblclick', function (event) {
             event.preventDefault();
+        });
+
+        // מניעת אירועי gesture-start, gesture-change, gesture-end
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('gesturechange', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('gestureend', function (e) {
+            e.preventDefault();
         });
     </script>
 </body>
