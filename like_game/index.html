@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>מרוץ קליקים</title>
     <style>
         body {
@@ -12,7 +12,7 @@
             padding: 20px;
             direction: rtl;
             background-color: #F3D548;
-            overflow-x: hidden;
+            overflow-x: hidden; /* מניעת גלילה אופקית */
         }
         #game, #results {
             display: none;
@@ -39,7 +39,7 @@
             text-align: right;
         }
         #logo {
-            width: 200px;
+            width: 400px; /* גודל קבוע פי שניים */
             height: auto;
             margin-bottom: 20px;
         }
@@ -60,13 +60,11 @@
             border-radius: 10px;
         }
 
+        /* התאמות למובייל */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
                 font-size: 16px;
-            }
-            #logo {
-                width: 150px;
             }
             #button {
                 font-size: 18px;
@@ -81,7 +79,7 @@
 <body>
     <img id="logo" src="logo.png" alt="מסלול משותף">
     
-    <!-- Opening view -->
+    <!-- מסך פתיחה -->
     <div id="start">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>הקלידו את שמכם והתחילו את המשחק!</p>
@@ -89,7 +87,7 @@
         <button onclick="startGame()">התחל</button>
     </div>
 
-    <!-- Game view -->
+    <!-- מסך המשחק -->
     <div id="game">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>לחצו על הכפתור כמה שיותר פעמים תוך 10 שניות!</p>
@@ -98,7 +96,7 @@
         <p id="result">לחיצות: 0</p>
     </div>
 
-    <!-- Results view -->
+    <!-- מסך תוצאות -->
     <div id="results">
         <h1>תוצאות המשחק</h1>
         <p id="finalResult"></p>
@@ -113,7 +111,7 @@
             </thead>
             <tbody id="highScores"></tbody>
         </table>
-        <!-- Pic + story -->
+        <!-- תמונה והנעה לפעולה -->
         <img id="actionImage" src="BikeWsheep.JPG" alt="רוכבת אופניים עם כבשים">
         <div id="callToAction">
             <p>נתת פה מלא קליקים – כל הכבוד 💪🏾</p>
@@ -175,11 +173,11 @@
             document.getElementById("game").style.display = "none";
             document.getElementById("results").style.display = "block";
 
-            // Updating leader board
+            // הוספת התוצאה לטבלת השיאים
             highScores.push({ name: playerName, score: clicks });
             highScores.sort((a, b) => b.score - a.score);
 
-            // Showing leader board
+            // עדכון טבלת השיאים
             const highScoresTable = document.getElementById("highScores");
             highScoresTable.innerHTML = "";
             highScores.forEach((entry, index) => {
@@ -191,7 +189,7 @@
                 highScoresTable.innerHTML += row;
             });
 
-            // Result
+            // הצגת תוצאה סופית
             document.getElementById("finalResult").innerHTML = `כל הכבוד, ${playerName}! סיימת עם ${clicks} לחיצות.`;
         }
 
@@ -206,6 +204,18 @@
             document.getElementById("start").style.display = "block";
             clearInterval(countdown);
         }
+
+        // מניעת זום באמצעות מחוות אצבעות
+        document.addEventListener('touchmove', function (event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        // מניעת זום כפול על ידי לחיצה כפולה
+        document.addEventListener('dblclick', function (event) {
+            event.preventDefault();
+        });
     </script>
 </body>
 </html>
