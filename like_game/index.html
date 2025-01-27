@@ -12,8 +12,8 @@
             padding: 20px;
             direction: rtl;
             background-color: #F3D548;
-            overflow-x: hidden; /* מניעת גלילה אופקית */
-            touch-action: manipulation; /* מניעת מחוות זום */
+            overflow-x: hidden;
+            touch-action: manipulation;
         }
         #game, #results {
             display: none;
@@ -32,14 +32,14 @@
         #timer {
             font-size: 24px;
             margin-top: 20px;
-            color: red; /* טיימר בצבע אדום */
+            color: red;
         }
         table {
             margin: 20px auto;
             border-collapse: collapse;
             max-width: 100%;
-            touch-action: none; /* מניעת מחוות זום בטבלה */
-            pointer-events: none; /* מניעת אירועים בטבלה */
+            touch-action: none;
+            pointer-events: none;
         }
         th, td {
             border: 1px solid black;
@@ -47,7 +47,7 @@
             text-align: right;
         }
         #logo {
-            width: 300px; /* גודל לוגו פי 1.5 */
+            width: 300px;
             height: auto;
             margin-bottom: 20px;
         }
@@ -66,11 +66,10 @@
             margin-top: 30px;
             margin-bottom: 20px;
             border-radius: 10px;
-            touch-action: none; /* מניעת מחוות זום בתמונה */
-            pointer-events: none; /* מניעת אירועים בתמונה */
+            touch-action: none;
+            pointer-events: none;
         }
 
-        /* התאמות למובייל */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -86,7 +85,7 @@
 <body>
     <img id="logo" src="logo.png" alt="מסלול משותף">
     
-    <!-- מסך פתיחה -->
+    <!-- Opening View -->
     <div id="start">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>הקלידו את שמכם והתחילו את המשחק!</p>
@@ -94,7 +93,7 @@
         <button onclick="startGame()">התחל</button>
     </div>
 
-    <!-- מסך המשחק -->
+    <!-- Game View -->
     <div id="game">
         <h1>משחק מרוץ קליקים 🚀 🏃‍♂️</h1>
         <p>לחצו על הכפתור כמה שיותר פעמים תוך 10 שניות!</p>
@@ -103,7 +102,7 @@
         <p id="result">לחיצות: 0</p>
     </div>
 
-    <!-- מסך תוצאות -->
+    <!-- Results View -->
     <div id="results">
         <h1>תוצאות המשחק</h1>
         <p id="finalResult"></p>
@@ -118,7 +117,7 @@
             </thead>
             <tbody id="highScores"></tbody>
         </table>
-        <!-- תמונה והנעה לפעולה -->
+        <!-- Pic + Text -->
         <img id="actionImage" src="BikeWsheep.JPG" alt="רוכבת אופניים עם כבשים">
         <div id="callToAction">
             <p>נתת פה מלא קליקים – כל הכבוד 💪🏾</p>
@@ -180,11 +179,11 @@
             document.getElementById("game").style.display = "none";
             document.getElementById("results").style.display = "block";
 
-            // הוספת התוצאה לטבלת השיאים
+            // Adding result to table
             highScores.push({ name: playerName, score: clicks });
             highScores.sort((a, b) => b.score - a.score);
 
-            // עדכון טבלת השיאים
+            // Updating the table
             const highScoresTable = document.getElementById("highScores");
             highScoresTable.innerHTML = "";
             highScores.forEach((entry, index) => {
@@ -196,7 +195,7 @@
                 highScoresTable.innerHTML += row;
             });
 
-            // הצגת תוצאה סופית
+            // Result reveal
             document.getElementById("finalResult").innerHTML = `כל הכבוד, ${playerName}! סיימת עם ${clicks} לחיצות.`;
         }
 
@@ -212,19 +211,16 @@
             clearInterval(countdown);
         }
 
-        // מניעת זום באמצעות מחוות אצבעות
         document.addEventListener('touchmove', function (event) {
             if (event.scale !== 1) {
                 event.preventDefault();
             }
         }, { passive: false });
 
-        // מניעת זום כפול על ידי לחיצה כפולה
         document.addEventListener('dblclick', function (event) {
             event.preventDefault();
         });
 
-        // מניעת אירועי gesture-start, gesture-change, gesture-end
         document.addEventListener('gesturestart', function (e) {
             e.preventDefault();
         });
